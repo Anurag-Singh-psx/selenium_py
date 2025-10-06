@@ -1,0 +1,58 @@
+# ================================
+# Python general ignores
+# ================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+*.pdb
+
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.swp
+
+# Logs and temporary files
+*.log
+logs/
+temp/
+tmp/
+
+# Byte-compiled / cache files
+.pytest_cache/
+.cache/
+
+# Test reports
+reports/
+allure-report/
+allure-results/
+test-output/
+output/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment / credentials
+.env
+*.env
+*.ini
+config.json
+secrets.json
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# ================================
+# Project specific
+# ================================
+
+# PyCharm project settings
+*.iml

@@ -1,0 +1,14 @@
+{
+  "PERSONAL_DETAILS": {
+    "SALUTATION": ["Mr","mrs"],
+    "GENDER":"Male",
+    "LANGUAGE":"English",
+    "SKILLS": ["Java","Python","TypeScript","Selenium","Cypress","Playwright","Jira","Maven","Jenkins","Azure DevOps"],
+    "JOB_ROLES": ["IT","QA"],
+    "SELF_RATING": 7,
+    "FILE_NAME": "Sr_QE_JD_Winjit 5.pdf",
+    "INVALID_FILE_NAME": "testing_invalid.txt",
+    "TERMS": "I accept terms and conditions"
+
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "ADMIN": {
+    "USERNAME": "admin",
+    "PASSWORD": "admin123"
+  },
+  "USER": {
+    "USERNAME": "user",
+    "PASSWORD": "user123"
+  },
+  "SEARCH": {
+    "SEARCH_CHALLENGE": "Role-Based Login Flow"
+  },
+  "WRONG_LOGIN_DETAILS": {
+    "USERNAME": "adminsample",
+    "PASSWORD": "adminsample"
+  }
+}
