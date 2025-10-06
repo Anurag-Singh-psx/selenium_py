@@ -1,56 +1,39 @@
 stages:
-  - install
   - test
   - report
 
 variables:
+  PYTHONPATH: "$CI_PROJECT_DIR"
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  ALLURE_RESULTS_DIR: "allure-results"
+  ALLURE_REPORT_DIR: "allure-report"
 
-# =========================
-# Stage 1: Install Dependencies
-# =========================
-install_dependencies:
-  stage: install
-  image: python:3.11
-  before_script:
-    - python -m pip install --upgrade pip
-    - pip install --cache-dir $PIP_CACHE_DIR -r requirements.txt
-  script:
-    - echo "Dependencies installed"
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - .cache/pip
+cache:
+  paths:
+    - .cache/pip
 
-# =========================
-# Stage 2: Run Selenium Tests
-# =========================
+# ---------- Stage 1: Run Tests ----------
 run_tests:
   stage: test
-  image: selenium/standalone-chrome:latest
-  services:
-    - name: selenium/standalone-chrome:latest
-      alias: selenium
-  variables:
-    DISPLAY: ":99"
+  image: mcr.microsoft.com/playwright/python:v1.45.0-jammy  # has browsers + drivers preinstalled
   script:
-    - pip install --upgrade pip
     - pip install -r requirements.txt
-    - pytest tests/ --maxfail=1 --disable-warnings -q --alluredir=reports/allure-results
+    - mkdir -p $ALLURE_RESULTS_DIR
+    - pytest --browser_name=chrome --executor=local --alluredir=$ALLURE_RESULTS_DIR -n 2
   artifacts:
+    when: always
     paths:
-      - reports/allure-results
-    expire_in: 1 week
+      - $ALLURE_RESULTS_DIR
+    expire_in: 2 days
 
-# =========================
-# Stage 3: Generate Allure Report
-# =========================
+# ---------- Stage 2: Generate Allure Report ----------
 allure_report:
   stage: report
   image: frankescobar/allure-docker-service:latest
   script:
-    - allure generate reports/allure-results --clean -o reports/allure-report
+    - allure generate $ALLURE_RESULTS_DIR -o $ALLURE_REPORT_DIR --clean
   artifacts:
     paths:
-      - reports/allure-report
-    expire_in: 1 week
+      - $ALLURE_REPORT_DIR
+    expire_in: 5 days
+  when: always
