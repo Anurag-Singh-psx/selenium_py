@@ -5,20 +5,28 @@ variables:
   GRID_URL: "http://selenium-hub:4444/wd/hub"
   BROWSER: "chrome"
   EXECUTOR: "remote"
-  DEFAULT_TIMEOUT: "10"
 
-# Selenium Grid services
 services:
   - name: selenium/hub:4.25.0
     alias: selenium-hub
 
   - name: selenium/node-chrome:4.25.0
     alias: chrome
-    command: ["bash", "-c", "SE_NODE_MAX_SESSIONS=4 SE_NODE_OVERRIDE_MAX_SESSIONS=true /opt/bin/entry_point.sh"]
+    environment:
+      SE_EVENT_BUS_HOST: selenium-hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+      SE_NODE_MAX_SESSIONS: 4
+      SE_NODE_OVERRIDE_MAX_SESSIONS: true
 
   - name: selenium/node-firefox:4.25.0
     alias: firefox
-    command: ["bash", "-c", "SE_NODE_MAX_SESSIONS=4 SE_NODE_OVERRIDE_MAX_SESSIONS=true /opt/bin/entry_point.sh"]
+    environment:
+      SE_EVENT_BUS_HOST: selenium-hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+      SE_NODE_MAX_SESSIONS: 4
+      SE_NODE_OVERRIDE_MAX_SESSIONS: true
 
 test:
   stage: test
@@ -29,9 +37,18 @@ test:
     - pip install selenium pytest pytest-xdist allure-pytest
     - pip install -r requirements.txt
     # Wait for Selenium Grid hub to be ready
-    - until curl -s http://selenium-hub:4444/status | grep -q '"ready":true'; do echo "Waiting for Selenium Grid..."; sleep 2; done
+    - |
+      timeout=60
+      while ! curl -s http://selenium-hub:4444/status | grep -q '"ready":true'; do
+        echo "Waiting for Selenium Grid..."
+        sleep 2
+        ((timeout--))
+        if [ $timeout -le 0 ]; then
+          echo "Selenium Grid not ready, exiting."
+          exit 1
+        fi
+      done
   script:
-    # Run tests in parallel (make sure total workers <= total node sessions)
     - pytest -n 4 --browser_name=$BROWSER --executor=$EXECUTOR --alluredir=allure-results
   artifacts:
     paths:
