@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   selenium-hub:
     image: selenium/hub:4.25.0
@@ -14,8 +16,10 @@ services:
       - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-      - SE_NODE_MAX_SESSIONS=1      # <- limit Chrome node to 1 session
+      - SE_NODE_MAX_SESSIONS=4
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+    command: >
+      bash -c "/opt/bin/entry_point.sh"
 
   firefox:
     image: selenium/node-firefox:4.25.0
@@ -26,5 +30,7 @@ services:
       - SE_EVENT_BUS_HOST=selenium-hub
       - SE_EVENT_BUS_PUBLISH_PORT=4442
       - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
-      - SE_NODE_MAX_SESSIONS=1      # <- limit Firefox node to 1 session
+      - SE_NODE_MAX_SESSIONS=4
       - SE_NODE_OVERRIDE_MAX_SESSIONS=true
+    command: >
+      bash -c "/opt/bin/entry_point.sh"

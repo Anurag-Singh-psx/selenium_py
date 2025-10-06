@@ -1,39 +1,39 @@
 stages:
   - test
-  - report
 
 variables:
-  PYTHONPATH: "$CI_PROJECT_DIR"
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-  ALLURE_RESULTS_DIR: "allure-results"
-  ALLURE_REPORT_DIR: "allure-report"
+  GRID_URL: "http://selenium-hub:4444/wd/hub"
+  BROWSER: "chrome"
+  EXECUTOR: "remote"
+  DEFAULT_TIMEOUT: "10"
 
-cache:
-  paths:
-    - .cache/pip
+services:
+  - name: selenium/hub:4.25.0
+    alias: selenium-hub
+  - name: selenium/node-chrome:4.25.0
+    alias: chrome
+    command:
+      - bash
+      - c
+      - "SE_NODE_MAX_SESSIONS=1 SE_NODE_OVERRIDE_MAX_SESSIONS=true /opt/bin/entry_point.sh"
+  - name: selenium/node-firefox:4.25.0
+    alias: firefox
+    command:
+      - bash
+      - c
+      - "SE_NODE_MAX_SESSIONS=1 SE_NODE_OVERRIDE_MAX_SESSIONS=true /opt/bin/entry_point.sh"
 
-# ---------- Stage 1: Run Tests ----------
-run_tests:
+test:
   stage: test
-  image: mcr.microsoft.com/playwright/python:v1.45.0-jammy  # has browsers + drivers preinstalled
-  script:
+  image: python:3.11-slim
+  before_script:
+    - pip install --upgrade pip
+    - pip install selenium pytest pytest-xdist allure-pytest
     - pip install -r requirements.txt
-    - mkdir -p $ALLURE_RESULTS_DIR
-    - pytest --dist=loadscope --browser_name=chrome --executor=local --alluredir=$ALLURE_RESULTS_DIR -n 2
-  artifacts:
-    when: always
-    paths:
-      - $ALLURE_RESULTS_DIR
-    expire_in: 2 days
-
-# ---------- Stage 2: Generate Allure Report ----------
-allure_report:
-  stage: report
-  image: frankescobar/allure-docker-service:latest
   script:
-    - allure generate $ALLURE_RESULTS_DIR -o $ALLURE_REPORT_DIR --clean
+    # Run tests in parallel. Limit workers to 1 for nodes with max 1 session
+    - pytest -n 4 --browser_name=$BROWSER --executor=$EXECUTOR --alluredir=allure-results
   artifacts:
     paths:
-      - $ALLURE_REPORT_DIR
-    expire_in: 5 days
-  when: always
+      - allure-results
+    when: always
