@@ -1,0 +1,7 @@
+selenium
+pytest
+pytest-xdist
+pytest-order
+allure-pytest
+openpyxl
+python-dotenv
