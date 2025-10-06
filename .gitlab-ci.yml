@@ -24,6 +24,7 @@ test:
   stage: test
   image: python:3.11-slim
   before_script:
+    - apt-get update && apt-get install -y curl
     - pip install --upgrade pip
     - pip install selenium pytest pytest-xdist allure-pytest
     - pip install -r requirements.txt
