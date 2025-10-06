@@ -19,7 +19,7 @@ run_tests:
   script:
     - pip install -r requirements.txt
     - mkdir -p $ALLURE_RESULTS_DIR
-    - pytest --browser_name=chrome --executor=local --alluredir=$ALLURE_RESULTS_DIR -n 2
+    - pytest --dist=loadscope --browser_name=chrome --executor=local --alluredir=$ALLURE_RESULTS_DIR -n 2
   artifacts:
     when: always
     paths:

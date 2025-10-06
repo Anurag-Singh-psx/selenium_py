@@ -5,7 +5,7 @@ import allure
 import pytest
 import random
 
-from test.job_application_form.BaseJobApplication import BaseJobApplicationTest
+from .BaseJobApplication import BaseJobApplicationTest
 from utils.DataGenerator import DataGenerator
 from utils.JsonReader import JsonReader
 from pages.Keys import Keys

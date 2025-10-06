@@ -2,7 +2,7 @@
 import allure
 import pytest
 
-from test.job_application_form.BaseJobApplication import BaseJobApplicationTest
+from .BaseJobApplication import BaseJobApplicationTest
 from utils.JsonReader import JsonReader
 from pages.Keys import Keys
 

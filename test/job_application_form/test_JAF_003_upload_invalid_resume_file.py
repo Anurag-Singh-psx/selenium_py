@@ -1,7 +1,7 @@
 import allure
 import pytest
 
-from test.job_application_form.BaseJobApplication import BaseJobApplicationTest
+from .BaseJobApplication import BaseJobApplicationTest
 from utils.JsonReader import JsonReader
 
 data=JsonReader().read_json("test_data/common.json")
