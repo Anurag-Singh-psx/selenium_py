@@ -1,7 +1,7 @@
-import os
 import pytest
 import allure
 import config
+import tempfile
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -46,6 +46,8 @@ def driver_factory(request):
                 options.add_argument("--no-sandbox")
                 options.add_argument("--disable-dev-shm-usage")
                 options.add_argument("--start-maximized")
+                user_data_dir = tempfile.mkdtemp(prefix="chrome-remote-")
+                options.add_argument(f"--user-data-dir={user_data_dir}")
                 driver = webdriver.Chrome(options=options)
             elif browser_name == "firefox":
                 options = FirefoxOptions()
@@ -62,6 +64,9 @@ def driver_factory(request):
                 options.add_argument("--ignore-certificate-errors")
                 options.add_argument("--ignore-ssl-errors")
                 options.add_argument("--disable-dev-shm-usage")
+                options.add_argument("--disable-gpu")
+                user_data_dir = tempfile.mkdtemp(prefix="chrome-remote-")
+                options.add_argument(f"--user-data-dir={user_data_dir}")
                 driver = webdriver.Remote(command_executor=grid_url, options=options)
             elif browser_name == "firefox":
                 options = FirefoxOptions()
