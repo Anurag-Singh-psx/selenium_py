@@ -1,0 +1,56 @@
+stages:
+  - install
+  - test
+  - report
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+# =========================
+# Stage 1: Install Dependencies
+# =========================
+install_dependencies:
+  stage: install
+  image: python:3.11
+  before_script:
+    - python -m pip install --upgrade pip
+    - pip install --cache-dir $PIP_CACHE_DIR -r requirements.txt
+  script:
+    - echo "Dependencies installed"
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - .cache/pip
+
+# =========================
+# Stage 2: Run Selenium Tests
+# =========================
+run_tests:
+  stage: test
+  image: selenium/standalone-chrome:latest
+  services:
+    - name: selenium/standalone-chrome:latest
+      alias: selenium
+  variables:
+    DISPLAY: ":99"
+  script:
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - pytest tests/ --maxfail=1 --disable-warnings -q --alluredir=reports/allure-results
+  artifacts:
+    paths:
+      - reports/allure-results
+    expire_in: 1 week
+
+# =========================
+# Stage 3: Generate Allure Report
+# =========================
+allure_report:
+  stage: report
+  image: frankescobar/allure-docker-service:latest
+  script:
+    - allure generate reports/allure-results --clean -o reports/allure-report
+  artifacts:
+    paths:
+      - reports/allure-report
+    expire_in: 1 week
