@@ -70,6 +70,7 @@ def driver_factory(request):
                 options.add_argument("--ignore-certificate-errors")
                 options.add_argument("--ignore-ssl-errors")
                 options.add_argument("--disable-dev-shm-usage")
+                options.add_argument("--headless")
                 driver = webdriver.Remote(command_executor=grid_url, options=options)
             else:
                 raise pytest.UsageError(f"Unsupported browser: {browser_name}")

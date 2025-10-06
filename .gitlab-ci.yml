@@ -15,13 +15,13 @@ services:
     command:
       - bash
       - c
-      - "SE_NODE_MAX_SESSIONS=1 SE_NODE_OVERRIDE_MAX_SESSIONS=true /opt/bin/entry_point.sh"
+      - "SE_NODE_MAX_SESSIONS=4 SE_NODE_OVERRIDE_MAX_SESSIONS=true /opt/bin/entry_point.sh"
   - name: selenium/node-firefox:4.25.0
     alias: firefox
     command:
       - bash
       - c
-      - "SE_NODE_MAX_SESSIONS=1 SE_NODE_OVERRIDE_MAX_SESSIONS=true /opt/bin/entry_point.sh"
+      - "SE_NODE_MAX_SESSIONS=4 SE_NODE_OVERRIDE_MAX_SESSIONS=true /opt/bin/entry_point.sh"
 
 test:
   stage: test
