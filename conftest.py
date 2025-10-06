@@ -28,7 +28,6 @@ def pytest_addoption(parser):
 def driver_factory(request):
     browser_name = request.config.getoption("browser_name") or config.BROWSER
     executor = request.config.getoption("executor") or config.EXECUTOR
-
     if not browser_name:
         raise pytest.UsageError("Browser name is required. Pass --browser_name=chrome or firefox.")
     if not executor:
@@ -46,8 +45,6 @@ def driver_factory(request):
                 options.add_argument("--no-sandbox")
                 options.add_argument("--disable-dev-shm-usage")
                 options.add_argument("--start-maximized")
-                user_data_dir = tempfile.mkdtemp(prefix="chrome-remote-")
-                options.add_argument(f"--user-data-dir={user_data_dir}")
                 driver = webdriver.Chrome(options=options)
             elif browser_name == "firefox":
                 options = FirefoxOptions()
@@ -65,8 +62,7 @@ def driver_factory(request):
                 options.add_argument("--ignore-ssl-errors")
                 options.add_argument("--disable-dev-shm-usage")
                 options.add_argument("--disable-gpu")
-                user_data_dir = tempfile.mkdtemp(prefix="chrome-remote-")
-                options.add_argument(f"--user-data-dir={user_data_dir}")
+                options.add_argument("--headless=new")
                 driver = webdriver.Remote(command_executor=grid_url, options=options)
             elif browser_name == "firefox":
                 options = FirefoxOptions()
