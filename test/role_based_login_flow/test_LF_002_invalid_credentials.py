@@ -14,6 +14,7 @@ wrong_login_details=data['WRONG_LOGIN_DETAILS']
 @allure.description("Enter invalid username/password combination")
 @allure.severity(allure.severity_level.CRITICAL)
 
+@pytest.mark.regression
 @pytest.mark.order(2)
 @pytest.mark.usefixtures("browser_setup")
 class TestLF002:

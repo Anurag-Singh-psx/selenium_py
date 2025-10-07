@@ -17,6 +17,7 @@ personal_details=personal_data['PERSONAL_DETAILS']
 @allure.description("Ensure skills can be added and deleted dynamically.")
 @allure.severity(allure.severity_level.CRITICAL)
 
+@pytest.mark.smoke
 @pytest.mark.order(4)
 @pytest.mark.usefixtures("browser_setup")
 class TestJAF002(BaseJobApplicationTest):

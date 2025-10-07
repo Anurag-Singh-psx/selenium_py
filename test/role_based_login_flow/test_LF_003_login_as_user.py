@@ -14,6 +14,7 @@ login_details=data['USER']
 @allure.description("Login with valid User credentials and verify User dashboard")
 @allure.severity(allure.severity_level.CRITICAL)
 
+@pytest.mark.regression
 @pytest.mark.order(3)
 @pytest.mark.usefixtures("browser_setup")
 class TestLF003:

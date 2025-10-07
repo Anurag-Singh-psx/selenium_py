@@ -20,6 +20,7 @@ personal_details=data_1['PERSONAL_DETAILS']
 @allure.description("Fill in all fields correctly, upload a valid resume, and accept terms before submission.")
 @allure.severity(allure.severity_level.CRITICAL)
 
+@pytest.mark.smoke
 @pytest.mark.order(1)
 @pytest.mark.usefixtures("browser_setup")
 class TestJAF001(BaseJobApplicationTest):

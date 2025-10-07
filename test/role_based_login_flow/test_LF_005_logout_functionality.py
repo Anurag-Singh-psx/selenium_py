@@ -14,6 +14,7 @@ login_details=data['ADMIN']
 @allure.description("Logout from User/Admin dashboard and verify return to login form")
 @allure.severity(allure.severity_level.CRITICAL)
 
+@pytest.mark.regression
 @pytest.mark.order(5)
 @pytest.mark.usefixtures("browser_setup")
 class TestLF005:

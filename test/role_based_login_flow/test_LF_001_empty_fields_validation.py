@@ -13,6 +13,7 @@ search=data['SEARCH']
 @allure.description("Attempt login with empty username and password")
 @allure.severity(allure.severity_level.CRITICAL)
 
+@pytest.mark.regression
 @pytest.mark.order(1)
 @pytest.mark.usefixtures("browser_setup")
 class TestLF001:

@@ -12,6 +12,7 @@ search=data['SEARCH_VALUE']
 data_1=JsonReader().read_json("test_data/job_application_form/job_application_form.json")
 personal_details=data_1['PERSONAL_DETAILS']
 
+@pytest.mark.smoke
 @allure.epic("Challenge")
 @allure.feature("Job Application Flow")
 @allure.story("JAF_002 - Attempt submission with invalid email")

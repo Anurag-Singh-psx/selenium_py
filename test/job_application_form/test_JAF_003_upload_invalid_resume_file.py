@@ -10,6 +10,7 @@ search=data['SEARCH_VALUE']
 personal_data=JsonReader().read_json("test_data/job_application_form/job_application_form.json")
 personal_details=personal_data['PERSONAL_DETAILS']
 
+@pytest.mark.smoke
 @allure.epic("Challenge")
 @allure.feature("Job Application Flow")
 @allure.story("JAF_003 - Upload invalid resume file")
