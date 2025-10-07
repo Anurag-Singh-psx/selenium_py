@@ -26,8 +26,17 @@ class CommonPage(BaseClass):
 
     def verify_error_message(self,message):
         alert_message=self.element_actions.wait_for_element((By.XPATH, f"//*[contains(@class, 'Mui-required') and contains(normalize-space(.),'{message}')]"))
-        assert alert_message,f"Expected alert message '{message}' not found!"
+        assert alert_message,f"Expected error message '{message}' not found!"
         return alert_message
+
+    def verify_chips_added(self,key):
+        alert_message=self.element_actions.wait_for_element((By.XPATH, f"//*[contains(@class, 'MuiChip-label') and contains(normalize-space(.),'{key}')]"))
+        assert alert_message,f"Expected chip message '{key}' not found!"
+        return alert_message
+
+    def verify_chips_deleted(self, key):
+        element = self.element_actions.find_elements((By.XPATH, f"//*[contains(@class, 'MuiChip-label') and contains(normalize-space(.),'{key}')]"))
+        assert len(element) == 0, f"Expected chip '{key}' to be deleted, but it is still present!"
 
     def file_upload(self,file_path,allowed_extension=None):
         file_path=os.path.abspath(file_path)

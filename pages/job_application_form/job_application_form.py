@@ -64,6 +64,12 @@ class JobApplicationForm(BaseClass):
 
             self.element_actions.perform_keyboard_tab()
 
+    def delete_skills(self, data: dict[str, object]):
+        if data.get(Keys.SKILLS.value):
+            key = self.element_actions.wait_for_element(
+                (By.XPATH, f"//*[contains(@class, 'MuiChip-label') and contains(normalize-space(.),'{data.get(Keys.SKILLS.value)}')]/following-sibling::*[contains(@class,'MuiChip-deleteIcon')]"))
+            key.click()
+
 
     def self_rating(self,rating):
         self.element_actions.perform_sliding(self.slider,rating)

@@ -7,8 +7,8 @@ from utils.JsonReader import JsonReader
 data=JsonReader().read_json("test_data/common.json")
 search=data['SEARCH_VALUE']
 
-data_1=JsonReader().read_json("test_data/job_application_form/job_application_form.json")
-personal_details=data_1['PERSONAL_DETAILS']
+personal_data=JsonReader().read_json("test_data/job_application_form/job_application_form.json")
+personal_details=personal_data['PERSONAL_DETAILS']
 
 @allure.epic("Challenge")
 @allure.feature("Job Application Flow")

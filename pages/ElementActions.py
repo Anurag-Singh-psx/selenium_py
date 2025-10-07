@@ -70,3 +70,6 @@ class ElementActions:
 
         # Drag the thumb, not the root
         self.actions.click_and_hold(thumb).move_by_offset(offset, 0).release().perform()
+
+    def find_elements(self, locator):
+        return  self.driver.find_elements(*locator)
